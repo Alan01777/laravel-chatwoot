@@ -1,0 +1,30 @@
+{
+    "name": "alan01777/laravel-chatwoot",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Alan01777\\LaravelChatwoot\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Alan01777\\LaravelChatwoot\\ChatwootServiceProvider"
+            ],
+            "aliases": {
+                "Chatwoot": "Alan01777\\LaravelChatwoot\\Facades\\Chatwoot"
+            }
+        }
+    },
+
+    "authors": [
+        {
+            "name": "alan01777",
+            "email": "camp.alan3@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
+    }
+}
