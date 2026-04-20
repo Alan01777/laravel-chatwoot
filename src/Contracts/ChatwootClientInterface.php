@@ -148,4 +148,29 @@ interface ChatwootClientInterface
      * Send a new message to an existing conversation.
      */
     public function sendMessage(int $conversationId, MessageDTO $message): array;
+
+    /**
+     * Get all labels for a specific conversation.
+     */
+    public function getConversationLabels(int $conversationId): array;
+
+    /**
+     * Set labels for a specific conversation (overwrites existing).
+     */
+    public function setConversationLabels(int $conversationId, array $labels): array;
+
+    /**
+     * Update custom attributes for a specific conversation.
+     */
+    public function updateConversationCustomAttributes(int $conversationId, array $customAttributes): array;
+
+    /**
+     * Get all labels for a specific contact.
+     */
+    public function getContactLabels(int $contactId): array;
+
+    /**
+     * Set labels for a specific contact (overwrites existing).
+     */
+    public function setContactLabels(int $contactId, array $labels): array;
 }

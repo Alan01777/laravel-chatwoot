@@ -261,4 +261,44 @@ class ChatwootClient implements ChatwootClientInterface
     {
         return $this->client()->post("conversations/{$conversationId}/messages", $message->toArray())->throw()->json();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConversationLabels(int $conversationId): array
+    {
+        return $this->client()->get("conversations/{$conversationId}/labels")->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setConversationLabels(int $conversationId, array $labels): array
+    {
+        return $this->client()->post("conversations/{$conversationId}/labels", ['labels' => $labels])->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateConversationCustomAttributes(int $conversationId, array $customAttributes): array
+    {
+        return $this->client()->post("conversations/{$conversationId}/custom_attributes", ['custom_attributes' => $customAttributes])->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContactLabels(int $contactId): array
+    {
+        return $this->client()->get("contacts/{$contactId}/labels")->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setContactLabels(int $contactId, array $labels): array
+    {
+        return $this->client()->post("contacts/{$contactId}/labels", ['labels' => $labels])->throw()->json();
+    }
 }

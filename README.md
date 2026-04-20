@@ -11,6 +11,8 @@ A robust and professional Laravel package for integrating with the Chatwoot API.
 - **Elegant Facade**: Use `Chatwoot::getConversations()` for a static, user-friendly interface.
 - **Type-safe DTOs**: Avoid array-key mistakes with dedicated Data Transfer Objects for Messages, Contacts, Agents, and Teams.
 - **WhatsApp Templates**: Full support for Meta/WhatsApp Business templates via API.
+- **Support for Labels & Tags**: Easily manage labels for conversations and contacts.
+- **Custom Attributes**: Dedicated support for updating conversation and contact custom attributes.
 - **Error Handling**: Automatic exception throwing on 4xx/5xx API responses.
 
 ## Installation
@@ -119,6 +121,21 @@ $contact = Chatwoot::createContact(new ContactDTO(
 
 // Update a conversation status
 Chatwoot::updateConversation($conversationId, ['status' => 'resolved']);
+
+### Managing Labels and Custom Attributes
+
+```php
+// Set labels for a conversation (overwrites existing)
+Chatwoot::setConversationLabels($conversationId, ['support', 'priority']);
+
+// Update conversation custom attributes
+Chatwoot::updateConversationCustomAttributes($conversationId, [
+    'order_id' => '12345'
+]);
+
+// Manage contact labels
+Chatwoot::setContactLabels($contactId, ['premium-customer']);
+```
 ```
 
 ## License
