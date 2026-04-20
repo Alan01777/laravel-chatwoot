@@ -136,7 +136,6 @@ Chatwoot::updateConversationCustomAttributes($conversationId, [
 // Manage contact labels
 Chatwoot::setContactLabels($contactId, ['premium-customer']);
 ```
-```
 
 ## License
 
