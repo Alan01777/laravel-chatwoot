@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array removeTeamMember(int $teamId, int $userId)
  * @method static array getLabels()
  * @method static array sendMessage(int $conversationId, \Alan01777\LaravelChatwoot\DTOs\MessageDTO $message)
+ * @method static array sendFile(int $conversationId, mixed $file, ?string $content = null, array $additionalData = [])
  * @method static array getConversationLabels(int $conversationId)
  * @method static array setConversationLabels(int $conversationId, array $labels)
  * @method static array updateConversationCustomAttributes(int $conversationId, array $customAttributes)

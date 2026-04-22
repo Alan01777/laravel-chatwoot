@@ -192,6 +192,12 @@ class ChatwootFake implements ChatwootClientInterface
         return [];
     }
 
+    public function sendFile(int $conversationId, mixed $file, ?string $content = null, array $additionalData = []): array
+    {
+        $this->recordCall('sendFile', [$conversationId, $file, $content, $additionalData]);
+        return [];
+    }
+
     public function getConversationLabels(int $conversationId): array
     {
         $this->recordCall('getConversationLabels', [$conversationId]);
@@ -284,5 +290,18 @@ class ChatwootFake implements ChatwootClientInterface
         }
 
         Assert::fail('The expected contact was not created.');
+    }
+
+    public function assertFileSent(callable $callback): void
+    {
+        $calls = $this->calls['sendFile'] ?? [];
+
+        foreach ($calls as $args) {
+            if ($callback($args[1], $args[0], $args[2])) {
+                return;
+            }
+        }
+
+        Assert::fail('The expected file was not sent.');
     }
 }

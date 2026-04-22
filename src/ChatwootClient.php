@@ -275,6 +275,47 @@ class ChatwootClient implements ChatwootClientInterface
     /**
      * {@inheritdoc}
      */
+    public function sendFile(int $conversationId, mixed $file, ?string $content = null, array $additionalData = []): array
+    {
+        $request = $this->client()->asMultipart();
+
+        if ($content) {
+            $request->attach('content', $content);
+        }
+
+        // Add additional data (message_type, private, etc)
+        $data = array_merge([
+            'message_type' => 'outgoing',
+            'private' => 'false',
+        ], $additionalData);
+
+        foreach ($data as $key => $value) {
+            $request->attach($key, is_bool($value) ? ($value ? 'true' : 'false') : (string) $value);
+        }
+
+        // Handle file
+        if ($file instanceof \Illuminate\Http\UploadedFile) {
+            $request->attach(
+                'attachments[]',
+                fopen($file->getRealPath(), 'r'),
+                $file->getClientOriginalName()
+            );
+        } elseif (is_string($file) && file_exists($file)) {
+            $request->attach(
+                'attachments[]',
+                fopen($file, 'r'),
+                basename($file)
+            );
+        } else {
+            throw new \InvalidArgumentException('Invalid file provided. Must be a valid file path or an UploadedFile instance.');
+        }
+
+        return $request->post("conversations/{$conversationId}/messages")->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getConversationLabels(int $conversationId): array
     {
         return $this->client()->get("conversations/{$conversationId}/labels")->throw()->json();

@@ -7,6 +7,7 @@ Welcome to the documentation for the `laravel-chatwoot` package. This library pr
 - [**Configuration**](configuration.md): Learn how to set up single and multi-account connections.
 - [**Basic Usage**](usage.md): Getting started with API calls, Facades, and DTOs.
 - [**WhatsApp Templates**](templates.md): How to fetch and send Meta/WhatsApp Business templates.
+- [**Media & Attachments**](attachments.md): Sending images, documents, and other files.
 - [**Labels & Custom Attributes**](labels-attributes.md): Managing tags and custom fields for contacts and conversations.
 - [**Reporting API (v2)**](reporting.md): Accessing metrics, summaries, and real-time statistics.
 - [**Testing**](testing.md): Using the built-in testing helpers and `Chatwoot::fake()`.

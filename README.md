@@ -20,6 +20,7 @@ Full documentation can be found in the [docs](docs/index.md) directory:
 
 - [Configuration & Multi-account](docs/configuration.md)
 - [Basic Usage (DTOs & Facades)](docs/usage.md)
+- [Media & Attachments](docs/attachments.md)
 - [WhatsApp Templates](docs/templates.md)
 - [Labels & Custom Attributes](docs/labels-attributes.md)
 - [Reporting API (v2)](docs/reporting.md)

@@ -155,6 +155,11 @@ interface ChatwootClientInterface
     public function sendMessage(int $conversationId, MessageDTO $message): array;
 
     /**
+     * Send a file/attachment to an existing conversation.
+     */
+    public function sendFile(int $conversationId, mixed $file, ?string $content = null, array $additionalData = []): array;
+
+    /**
      * Get all labels for a specific conversation.
      */
     public function getConversationLabels(int $conversationId): array;
