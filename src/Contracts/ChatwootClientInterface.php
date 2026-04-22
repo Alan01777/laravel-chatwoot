@@ -90,6 +90,11 @@ interface ChatwootClientInterface
     public function getInboxAgents(int $id): array;
 
     /**
+     * Get WhatsApp message templates for a specific inbox.
+     */
+    public function getInboxTemplates(int $id): array;
+
+    /**
      * Get a list of all agents associated with the account.
      */
     public function getAgents(): array;
@@ -173,4 +178,34 @@ interface ChatwootClientInterface
      * Set labels for a specific contact (overwrites existing).
      */
     public function setContactLabels(int $contactId, array $labels): array;
+
+    /**
+     * Get account reporting summary.
+     */
+    public function getAccountSummary(array $params = []): array;
+
+    /**
+     * Get agent reporting summary.
+     */
+    public function getAgentSummary(int $agentId, array $params = []): array;
+
+    /**
+     * Get inbox reporting summary.
+     */
+    public function getInboxSummary(int $inboxId, array $params = []): array;
+
+    /**
+     * Get reporting metrics (series data).
+     */
+    public function getMetrics(string $metric, array $params = []): array;
+
+    /**
+     * Get conversation statistics (real-time).
+     */
+    public function getConversationStats(array $params = []): array;
+
+    /**
+     * Get summary reports grouped by channel, inbox, agent, or team.
+     */
+    public function getSummaryReport(string $type, array $params = []): array;
 }

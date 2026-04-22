@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array getInboxes(array $params = [])
  * @method static array getInbox(int $id)
  * @method static array getInboxAgents(int $id)
+ * @method static array getInboxTemplates(int $id)
  * @method static array getAgents()
  * @method static array addAgent(\Alan01777\LaravelChatwoot\DTOs\AgentDTO $data)
  * @method static array updateAgent(int $id, \Alan01777\LaravelChatwoot\DTOs\AgentDTO $data)
@@ -39,6 +40,13 @@ use Illuminate\Support\Facades\Facade;
  * @method static array updateConversationCustomAttributes(int $conversationId, array $customAttributes)
  * @method static array getContactLabels(int $contactId)
  * @method static array setContactLabels(int $contactId, array $labels)
+ * @method static array getAccountSummary(array $params = [])
+ * @method static array getAgentSummary(int $agentId, array $params = [])
+ * @method static array getInboxSummary(int $inboxId, array $params = [])
+ * @method static array getMetrics(string $metric, array $params = [])
+ * @method static array getConversationStats(array $params = [])
+ * @method static array getSummaryReport(string $type, array $params = [])
+ * @method static \Alan01777\LaravelChatwoot\Testing\ChatwootFake fake()
  * @method static \Alan01777\LaravelChatwoot\Contracts\ChatwootClientInterface account(string $name)
  * 
  * @see \Alan01777\LaravelChatwoot\ChatwootClient

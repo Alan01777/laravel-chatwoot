@@ -12,6 +12,11 @@ class ChatwootManager
      */
     protected array $accounts = [];
 
+    /**
+     * The fake instance.
+     */
+    protected ?ChatwootClientInterface $fake = null;
+
     public function __construct(protected $app) {}
 
     /**
@@ -19,6 +24,10 @@ class ChatwootManager
      */
     public function account(?string $name = null): ChatwootClientInterface
     {
+        if ($this->fake) {
+            return $this->fake;
+        }
+
         $name = $name ?: $this->getDefaultAccount();
 
         if (!isset($this->accounts[$name])) {
@@ -62,6 +71,16 @@ class ChatwootManager
     public function getDefaultAccount(): string
     {
         return $this->app['config']['chatwoot.default'] ?? 'default';
+    }
+
+    /**
+     * Create a fake instance.
+     */
+    public function fake(): ChatwootClientInterface
+    {
+        $this->fake = new Testing\ChatwootFake();
+
+        return $this->fake;
     }
 
     /**

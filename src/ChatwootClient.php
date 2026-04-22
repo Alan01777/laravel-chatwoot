@@ -24,12 +24,12 @@ class ChatwootClient implements ChatwootClientInterface
     /**
      * Get the configured HTTP client with base URL and authorization.
      */
-    private function client(): PendingRequest
+    private function client(string $version = 'v1'): PendingRequest
     {
         return Http::withHeaders([
             'api_access_token' => $this->apiAccessToken,
             'Accept' => 'application/json',
-        ])->baseUrl("{$this->baseUrl}/api/v1/accounts/{$this->accountId}/");
+        ])->baseUrl("{$this->baseUrl}/api/{$version}/accounts/{$this->accountId}/");
     }
 
     /**
@@ -169,6 +169,16 @@ class ChatwootClient implements ChatwootClientInterface
     /**
      * {@inheritdoc}
      */
+    public function getInboxTemplates(int $id): array
+    {
+        $response = $this->getInbox($id);
+
+        return $response['message_templates'] ?? [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getAgents(): array
     {
         return $this->client()->get('agents')->throw()->json();
@@ -300,5 +310,53 @@ class ChatwootClient implements ChatwootClientInterface
     public function setContactLabels(int $contactId, array $labels): array
     {
         return $this->client()->post("contacts/{$contactId}/labels", ['labels' => $labels])->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAccountSummary(array $params = []): array
+    {
+        return $this->client('v2')->get('reports/summary', array_merge(['type' => 'account'], $params))->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAgentSummary(int $agentId, array $params = []): array
+    {
+        return $this->client('v2')->get('reports/summary', array_merge(['type' => 'agent', 'id' => $agentId], $params))->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInboxSummary(int $inboxId, array $params = []): array
+    {
+        return $this->client('v2')->get('reports/summary', array_merge(['type' => 'inbox', 'id' => $inboxId], $params))->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetrics(string $metric, array $params = []): array
+    {
+        return $this->client('v2')->get('reports', array_merge(['metric' => $metric], $params))->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConversationStats(array $params = []): array
+    {
+        return $this->client('v2')->get('reports/conversations', $params)->throw()->json();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSummaryReport(string $type, array $params = []): array
+    {
+        return $this->client('v2')->get("summary_reports/{$type}", $params)->throw()->json();
     }
 }
