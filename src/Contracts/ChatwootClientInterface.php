@@ -4,7 +4,9 @@ namespace Alan01777\LaravelChatwoot\Contracts;
 
 use Alan01777\LaravelChatwoot\DTOs\AgentDTO;
 use Alan01777\LaravelChatwoot\DTOs\ContactDTO;
+use Alan01777\LaravelChatwoot\DTOs\ConversationDTO;
 use Alan01777\LaravelChatwoot\DTOs\MessageDTO;
+use Alan01777\LaravelChatwoot\DTOs\ReportCriteriaDTO;
 use Alan01777\LaravelChatwoot\DTOs\TeamDTO;
 
 interface ChatwootClientInterface
@@ -45,19 +47,14 @@ interface ChatwootClientInterface
     public function getConversations(array $params = []): array;
 
     /**
-     * Get detailed information about a specific conversation.
-     */
-    public function getConversation(int $id): array;
-
-    /**
      * Create a new conversation.
      */
-    public function createConversation(int $sourceId, int $inboxId, int $contactId, array $additionalAttributes = []): array;
+    public function createConversation(ConversationDTO $data): array;
 
     /**
      * Update an existing conversation (status, assigned agents, etc).
      */
-    public function updateConversation(int $id, array $data): array;
+    public function updateConversation(int $id, ConversationDTO $data): array;
 
     /**
      * Toggle the priority of a conversation.
@@ -180,37 +177,32 @@ interface ChatwootClientInterface
     public function getContactLabels(int $contactId): array;
 
     /**
-     * Set labels for a specific contact (overwrites existing).
-     */
-    public function setContactLabels(int $contactId, array $labels): array;
-
-    /**
      * Get account reporting summary.
      */
-    public function getAccountSummary(array $params = []): array;
+    public function getAccountSummary(?ReportCriteriaDTO $params = null): array;
 
     /**
      * Get agent reporting summary.
      */
-    public function getAgentSummary(int $agentId, array $params = []): array;
+    public function getAgentSummary(int $agentId, ?ReportCriteriaDTO $params = null): array;
 
     /**
      * Get inbox reporting summary.
      */
-    public function getInboxSummary(int $inboxId, array $params = []): array;
+    public function getInboxSummary(int $inboxId, ?ReportCriteriaDTO $params = null): array;
 
     /**
      * Get reporting metrics (series data).
      */
-    public function getMetrics(string $metric, array $params = []): array;
+    public function getMetrics(string $metric, ?ReportCriteriaDTO $params = null): array;
 
     /**
      * Get conversation statistics (real-time).
      */
-    public function getConversationStats(array $params = []): array;
+    public function getConversationStats(?ReportCriteriaDTO $params = null): array;
 
     /**
      * Get summary reports grouped by channel, inbox, agent, or team.
      */
-    public function getSummaryReport(string $type, array $params = []): array;
+    public function getSummaryReport(string $type, ?ReportCriteriaDTO $params = null): array;
 }

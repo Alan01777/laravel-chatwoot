@@ -5,7 +5,9 @@ namespace Alan01777\LaravelChatwoot;
 use Alan01777\LaravelChatwoot\Contracts\ChatwootClientInterface;
 use Alan01777\LaravelChatwoot\DTOs\AgentDTO;
 use Alan01777\LaravelChatwoot\DTOs\ContactDTO;
+use Alan01777\LaravelChatwoot\DTOs\ConversationDTO;
 use Alan01777\LaravelChatwoot\DTOs\MessageDTO;
+use Alan01777\LaravelChatwoot\DTOs\ReportCriteriaDTO;
 use Alan01777\LaravelChatwoot\DTOs\TeamDTO;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
@@ -99,23 +101,17 @@ class ChatwootClient implements ChatwootClientInterface
     /**
      * {@inheritdoc}
      */
-    public function createConversation(int $sourceId, int $inboxId, int $contactId, array $additionalAttributes = []): array
+    public function createConversation(ConversationDTO $data): array
     {
-        $data = array_merge([
-            'source_id' => $sourceId,
-            'inbox_id' => $inboxId,
-            'contact_id' => $contactId,
-        ], $additionalAttributes);
-
-        return $this->client()->post('conversations', $data)->throw()->json();
+        return $this->client()->post('conversations', $data->toArray())->throw()->json();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function updateConversation(int $id, array $data): array
+    public function updateConversation(int $id, ConversationDTO $data): array
     {
-        return $this->client()->patch("conversations/{$id}", $data)->throw()->json();
+        return $this->client()->patch("conversations/{$id}", $data->toArray())->throw()->json();
     }
 
     /**
@@ -356,48 +352,52 @@ class ChatwootClient implements ChatwootClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getAccountSummary(array $params = []): array
+    public function getAccountSummary(?ReportCriteriaDTO $params = null): array
     {
-        return $this->client('v2')->get('reports/summary', array_merge(['type' => 'account'], $params))->throw()->json();
+        $parameters = array_merge(['type' => 'account'], $params?->toArray() ?? []);
+        return $this->client('v2')->get('reports/summary', $parameters)->throw()->json();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAgentSummary(int $agentId, array $params = []): array
+    public function getAgentSummary(int $agentId, ?ReportCriteriaDTO $params = null): array
     {
-        return $this->client('v2')->get('reports/summary', array_merge(['type' => 'agent', 'id' => $agentId], $params))->throw()->json();
+        $parameters = array_merge(['type' => 'agent', 'id' => $agentId], $params?->toArray() ?? []);
+        return $this->client('v2')->get('reports/summary', $parameters)->throw()->json();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getInboxSummary(int $inboxId, array $params = []): array
+    public function getInboxSummary(int $inboxId, ?ReportCriteriaDTO $params = null): array
     {
-        return $this->client('v2')->get('reports/summary', array_merge(['type' => 'inbox', 'id' => $inboxId], $params))->throw()->json();
+        $parameters = array_merge(['type' => 'inbox', 'id' => $inboxId], $params?->toArray() ?? []);
+        return $this->client('v2')->get('reports/summary', $parameters)->throw()->json();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMetrics(string $metric, array $params = []): array
+    public function getMetrics(string $metric, ?ReportCriteriaDTO $params = null): array
     {
-        return $this->client('v2')->get('reports', array_merge(['metric' => $metric], $params))->throw()->json();
+        $parameters = array_merge(['metric' => $metric], $params?->toArray() ?? []);
+        return $this->client('v2')->get('reports', $parameters)->throw()->json();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getConversationStats(array $params = []): array
+    public function getConversationStats(?ReportCriteriaDTO $params = null): array
     {
-        return $this->client('v2')->get('reports/conversations', $params)->throw()->json();
+        return $this->client('v2')->get('reports/conversations', $params?->toArray() ?? [])->throw()->json();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getSummaryReport(string $type, array $params = []): array
+    public function getSummaryReport(string $type, ?ReportCriteriaDTO $params = null): array
     {
-        return $this->client('v2')->get("summary_reports/{$type}", $params)->throw()->json();
+        return $this->client('v2')->get("summary_reports/{$type}", $params?->toArray() ?? [])->throw()->json();
     }
 }

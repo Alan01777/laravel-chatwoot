@@ -5,7 +5,9 @@ namespace Alan01777\LaravelChatwoot\Testing;
 use Alan01777\LaravelChatwoot\Contracts\ChatwootClientInterface;
 use Alan01777\LaravelChatwoot\DTOs\AgentDTO;
 use Alan01777\LaravelChatwoot\DTOs\ContactDTO;
+use Alan01777\LaravelChatwoot\DTOs\ConversationDTO;
 use Alan01777\LaravelChatwoot\DTOs\MessageDTO;
+use Alan01777\LaravelChatwoot\DTOs\ReportCriteriaDTO;
 use Alan01777\LaravelChatwoot\DTOs\TeamDTO;
 use PHPUnit\Framework\Assert;
 
@@ -66,13 +68,13 @@ class ChatwootFake implements ChatwootClientInterface
         return [];
     }
 
-    public function createConversation(int $sourceId, int $inboxId, int $contactId, array $additionalAttributes = []): array
+    public function createConversation(ConversationDTO $data): array
     {
-        $this->recordCall('createConversation', [$sourceId, $inboxId, $contactId, $additionalAttributes]);
+        $this->recordCall('createConversation', [$data]);
         return [];
     }
 
-    public function updateConversation(int $id, array $data): array
+    public function updateConversation(int $id, ConversationDTO $data): array
     {
         $this->recordCall('updateConversation', [$id, $data]);
         return [];
@@ -228,37 +230,37 @@ class ChatwootFake implements ChatwootClientInterface
         return [];
     }
 
-    public function getAccountSummary(array $params = []): array
+    public function getAccountSummary(?ReportCriteriaDTO $params = null): array
     {
         $this->recordCall('getAccountSummary', [$params]);
         return [];
     }
 
-    public function getAgentSummary(int $agentId, array $params = []): array
+    public function getAgentSummary(int $agentId, ?ReportCriteriaDTO $params = null): array
     {
         $this->recordCall('getAgentSummary', [$agentId, $params]);
         return [];
     }
 
-    public function getInboxSummary(int $inboxId, array $params = []): array
+    public function getInboxSummary(int $inboxId, ?ReportCriteriaDTO $params = null): array
     {
         $this->recordCall('getInboxSummary', [$inboxId, $params]);
         return [];
     }
 
-    public function getMetrics(string $metric, array $params = []): array
+    public function getMetrics(string $metric, ?ReportCriteriaDTO $params = null): array
     {
         $this->recordCall('getMetrics', [$metric, $params]);
         return [];
     }
 
-    public function getConversationStats(array $params = []): array
+    public function getConversationStats(?ReportCriteriaDTO $params = null): array
     {
         $this->recordCall('getConversationStats', [$params]);
         return [];
     }
 
-    public function getSummaryReport(string $type, array $params = []): array
+    public function getSummaryReport(string $type, ?ReportCriteriaDTO $params = null): array
     {
         $this->recordCall('getSummaryReport', [$type, $params]);
         return [];
@@ -303,5 +305,18 @@ class ChatwootFake implements ChatwootClientInterface
         }
 
         Assert::fail('The expected file was not sent.');
+    }
+
+    public function assertConversationUpdated(callable $callback): void
+    {
+        $calls = $this->calls['updateConversation'] ?? [];
+
+        foreach ($calls as $args) {
+            if ($callback($args[1], $args[0])) {
+                return;
+            }
+        }
+
+        Assert::fail('The expected conversation was not updated.');
     }
 }

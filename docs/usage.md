@@ -34,6 +34,31 @@ $contact = Chatwoot::createContact(new ContactDTO(
 Chatwoot::updateContact($id, new ContactDTO(name: 'John Edited'));
 ```
 
+### Working with Conversations
+
+Conversations can be created or updated using the `ConversationDTO` and Enums for status and priority.
+
+```php
+use Alan01777\LaravelChatwoot\DTOs\ConversationDTO;
+use Alan01777\LaravelChatwoot\Enums\ConversationStatus;
+use Alan01777\LaravelChatwoot\Enums\ConversationPriority;
+
+// Creating a conversation
+$conversation = Chatwoot::createConversation(new ConversationDTO(
+    sourceId: 1,
+    inboxId: 1,
+    contactId: 1,
+    status: ConversationStatus::PENDING
+));
+
+// Updating a conversation (e.g. assigning to an agent and resolving)
+Chatwoot::updateConversation($id, new ConversationDTO(
+    status: ConversationStatus::RESOLVED,
+    assigneeId: 42,
+    priority: ConversationPriority::HIGH
+));
+```
+
 ### Sending Messages
 
 ```php
